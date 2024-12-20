@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public class Hi {
 	public static void main(String[] args) {
-		
-		System.out.println("hello world");
 		try {
 			Class.forName ("oracle.jdbc.driver.OracleDriver");
 			DriverManager.registerDriver (new oracle.jdbc.driver.OracleDriver());
@@ -13,22 +11,37 @@ public class Hi {
 			System.err.println("Unable to load the driver class!");
 		}
 		
-		// ----- Initial Data Handling -----
-		DataParser.parseData();
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//db18.cse.cuhk.edu.hk:1521/oradb.cse.cuhk.edu.hk", "h062", "yogAkkef");
+			Statement stmt = conn.createStatement();
+			
+			// ----- Initial Data Handling -----
+			DataParser.parseData();
+			
+			// ----- User Input -----
+			handleConsole();
+			
+		} catch (Exception e) {
+			System.err.println("Something went wrong connection!");
+			System.err.println(e);
+		}
 		
+		System.out.println("Exit");
 		
-		// ----- User Input -----
+	}
+	
+	private static void handleConsole() {
 		boolean isRunning = true;
 		Scanner scanner = new Scanner(System.in);
 		while (isRunning == true) {
 			System.out.println("Welcome to sales system!\n\n"
-				+ "-----Main Menu-----\n"
-				+ "What kinds of operation would you like to perform?\n"
-				+ "1. Operations for administrator\n"
-				+ "2. Operations for salesperson\n"
-				+ "3. Operations for manager\n"
-				+ "4. Exit this program\n"
-				+ "Enter Your Choice: ");
+					+ "-----Main Menu-----\n"
+					+ "What kinds of operation would you like to perform?\n"
+					+ "1. Operations for administrator\n"
+					+ "2. Operations for salesperson\n"
+					+ "3. Operations for manager\n"
+					+ "4. Exit this program\n"
+					+ "Enter Your Choice: ");
 			int userType = Integer.parseInt(scanner.nextLine());
 			int operationType;
 			switch(userType) {
@@ -71,45 +84,29 @@ public class Hi {
 					break;
 				default:
 					System.out.println("Invaild input!");
-					break;
-					
+					break;		
 			}
-			
-			
-			
 		}
 		scanner.close();
-		
-	
-		
-		/*
-		
-		try {
-			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//db18.cse.cuhk.edu.hk:1521/oradb.cse.cuhk.edu.hk", "h062", "yogAkkef");
-			Statement stmt = conn.createStatement();
-			String query1 = "CREATE TABLE DISPATCHES("
-				      + "ProductName VARCHAR (20) NOT NULL, "
-				      + "CustomerName VARCHAR (20) NOT NULL, "
-				      + "DispatchDate date, "
-				      + "DeliveryTime timestamp, "
-				      + "Price INT, "
-				      + "Location varchar(20))";
-			String query = "select * from dispatches"; // do not add a semi-colon here
-			System.out.println(query);
-			stmt.execute(query);
-			ResultSet rs = stmt.executeQuery(query);
-			
-		} catch (Exception e) {
-			System.err.println("Something went wrong connection!");
-			System.err.println(e);
-		}
-		
-		*/
-		System.out.println("Exit");
-		
 	}
 }
-	
+
+
+
+/*
+		String query1 = "CREATE TABLE DISPATCHES("
+			      + "ProductName VARCHAR (20) NOT NULL, "
+			      + "CustomerName VARCHAR (20) NOT NULL, "
+			      + "DispatchDate date, "
+			      + "DeliveryTime timestamp, "
+			      + "Price INT, "
+			      + "Location varchar(20))";
+		String query = "select * from dispatches"; // do not add a semi-colon here
+		System.out.println(query);
+		stmt.execute(query);
+		ResultSet rs = stmt.executeQuery(query);*/
+
+
 // https://docs.oracle.com/cd/F49540_01/DOC/java.815/a64685/basic1.htm
 // select table_name from user_tables;
 // describe <table_name>
