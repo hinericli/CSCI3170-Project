@@ -5,13 +5,6 @@ import java.util.Scanner;
 public class Hi {
 	public static void main(String[] args) {
 		try {
-			Class.forName ("oracle.jdbc.driver.OracleDriver");
-			DriverManager.registerDriver (new oracle.jdbc.driver.OracleDriver());
-			} catch(Exception x) {
-			System.err.println("Unable to load the driver class!");
-		}
-		
-		try {
 			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@//db18.cse.cuhk.edu.hk:1521/oradb.cse.cuhk.edu.hk", "h062", "yogAkkef");
 			Statement stmt = conn.createStatement();
 			
@@ -34,6 +27,7 @@ public class Hi {
 		boolean isRunning = true;
 		Scanner scanner = new Scanner(System.in);
 		while (isRunning == true) {
+			System.out.println("\n");
 			System.out.println("Welcome to sales system!\n\n"
 					+ "-----Main Menu-----\n"
 					+ "What kinds of operation would you like to perform?\n"
@@ -44,6 +38,8 @@ public class Hi {
 					+ "Enter Your Choice: ");
 			int userType = Integer.parseInt(scanner.nextLine());
 			int operationType;
+
+			System.out.println("\n");
 			switch(userType) {
 				case 1: 
 					System.out.println("-----Operations for administrator menu-----\n"
