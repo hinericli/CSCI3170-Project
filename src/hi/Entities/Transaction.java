@@ -6,9 +6,9 @@ public class Transaction {
     private int tID;
     private int pID;
     private int sID;
-    private Date tDate;
+    private java.sql.Date tDate;
 
-    public Transaction(int tID, int pID, int sID, Date tDate) {
+    public Transaction(int tID, int pID, int sID, java.sql.Date tDate) {
         this.tID = tID;
         this.pID = pID;
         this.sID = sID;
@@ -43,7 +43,7 @@ public class Transaction {
         return tDate;
     }
 
-    public void settDate(Date tDate) {
+    public void settDate(java.sql.Date tDate) {
         this.tDate = tDate;
     }
 }
