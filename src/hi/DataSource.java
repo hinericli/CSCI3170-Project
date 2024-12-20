@@ -16,7 +16,7 @@ public class DataSource {
     	config.setUsername("h062");
     	config.setPassword("yogAkkef");
     	config.addDataSourceProperty("connectionTimeout", "1000");
-    	config.addDataSourceProperty("idleTimeout", "60000");
+    	config.addDataSourceProperty("idleTimeout", "6000");
     	config.addDataSourceProperty("maximumPoolSize", "10");
     	ds = new HikariDataSource(config);
     }

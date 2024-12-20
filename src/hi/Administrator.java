@@ -1,6 +1,9 @@
 package hi;
 import java.sql.*;
+import java.util.List;
 import java.util.Scanner;
+
+import hi.Entities.Category;
 
 public class Administrator {
 	protected static void performOperation(int operationType) {
@@ -45,7 +48,6 @@ public class Administrator {
 			System.out.println("Processing...Done! Database is initialized!");
 		} catch(Exception e) {
 			System.out.println("Failed to create tables!");
-			
 		}
 	}
 	
@@ -62,11 +64,21 @@ public class Administrator {
 	
 	private static void loadFromDataFile(Connection conn, String folderPath) {
 		try {
-			Statement stmt = conn.createStatement();
-			String query = "INSERT INTO CATEGORY (cID, cName)"
-					+ "VALUES (1, 'Testing')";
-			stmt.executeUpdate(query);
-
+			PreparedStatement pstmt = conn.prepareStatement( "INSERT INTO CATEGORY VALUES (?, ?)");
+			
+			List<Category> categoryList = DataParser.parseCategory();
+			for (Category category : categoryList) {
+	            pstmt.setInt(1, category.getcID());
+	            pstmt.setString(2, category.getcName());
+	            pstmt.executeUpdate();
+	        }
+			
+			
+			
+			
+			
+			
+			
 			System.out.println("Processing...Done! Database is inputted into the database!");
 		} catch (Exception e) {
 			System.err.println(e);
@@ -80,20 +92,20 @@ public class Administrator {
 		try {
 			Statement stmt = conn.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT * FROM CATEGORY");
-			while (rs.next()){
-				System.out.println(rs.getString("cID"));
-				System.out.println(rs.getString("cName"));
+			switch (tableName.toLowerCase()) {
+				case "category" :
+					ResultSet rs = stmt.executeQuery("SELECT * FROM CATEGORY");
+					System.out.println("| c_id | c_name |");
+					while (rs.next()){
+						System.out.print("| " + rs.getString("cID"));
+						System.out.print(" | " + rs.getString("cName"));
+						System.out.println(" |");
+					}
 			}
+			
 			
 		} catch (Exception e) {
 			System.err.println(e);
 		}
-		
-
-		
-		
-		
 	}
-	
 }
