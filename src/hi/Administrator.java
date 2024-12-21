@@ -178,7 +178,7 @@ public class Administrator {
 			}
 			
 			pstmt = conn.prepareStatement("INSERT INTO TRANSACTION VALUES (?, ?, ?, ?)");
-			List<Transaction> transactionList = DataParser.parseTransaction(folderPath); // Assuming a DataParser class for parsing Transaction data
+			List<Transaction> transactionList = DataParser.parseTransaction(folderPath);
 			for (Transaction transaction : transactionList) {
 			    pstmt.setInt(1, transaction.gettID());
 			    pstmt.setInt(2, transaction.getpID());

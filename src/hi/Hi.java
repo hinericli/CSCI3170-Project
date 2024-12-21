@@ -8,14 +8,12 @@ public class Hi {
 			DataParser.parseAllData();
 			// ----- User Input -----
 			handleConsole();
-			
 		} catch (Exception e) {
 			System.err.println("Something went wrong connection!");
 			System.err.println(e);
 		}
 		
 		System.out.println("Exit");
-		
 	}
 	
 	private static void handleConsole() {
