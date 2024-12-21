@@ -255,11 +255,8 @@ public class Administrator {
 				        System.out.print(" | " + rs.getString("tDate"));
 				        System.out.println(" |");
 				    }
-				    break;
-					
+				    break;	
 			}
-			
-			
 		} catch (Exception e) {
 			System.err.println(e);
 		}

@@ -126,11 +126,36 @@ public class Manager {
 		} catch(Exception e) {
 			System.err.println(e);
 		}
-		
-		
 	} 
 	
-	private static void showNMostPopularParts(Connection conn, int n) { }
+	private static void showNMostPopularParts(Connection conn, int n) {
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs;		    
+			
+			if (n < 0) {
+				System.err.println("N should be a positive number!");
+				return;
+			}
+			
+		    String pTableQuery = "SELECT PART.pID, PART.pName, COUNT(PART.pID) AS tCount "
+					+ "FROM TRANSACTION JOIN PART ON PART.pID=TRANSACTION.pID "
+					+ "GROUP BY PART.pID, PART.pName "
+					+ "ORDER BY tCount DESC ";
+		    rs = stmt.executeQuery(pTableQuery);
+		    System.out.println("| Part ID | Part Name | No. of Transaction |");
+		    int count = 0;
+		    while (rs.next() && count < n) {
+		    	System.out.print("| " + rs.getString("pID"));
+		    	System.out.print(" | " + rs.getString("pName"));
+		        System.out.print(" | " + rs.getString("tCount"));
+		        System.out.println(" |");
+		        count++;
+		    }
+		} catch(Exception e) {
+			System.err.println(e);
+		}
+	}
 
 	
 }
