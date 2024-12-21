@@ -73,25 +73,32 @@ public class Manager {
 		try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs;
-			String query = "SELECT * FROM SALESPERSON "
-					+ "WHERE sExperience >= '" + lowerBound 
-					+ "' AND sExperience <= '" + upperBound
-					+ "' ORDER BY sID DESC";
-			rs = stmt.executeQuery(query);
-			System.out.println("| ID | Name | Years of Experience | Number of Transaction ");
+			
+			if (lowerBound > upperBound) {
+				System.err.println("Lower bound is larger than upper bound!");
+				return;
+			}
+		    
+		    String query = "SELECT SALESPERSON.sID, SALESPERSON.sName, SALESPERSON.sExperience, COUNT(TRANSACTION.tID) AS tCount "
+		    		+ "FROM SALESPERSON JOIN TRANSACTION "
+		    		+ "ON SALESPERSON.sID=TRANSACTION.sID "
+		    		+ "GROUP BY SALESPERSON.sID, SALESPERSON.sName, SALESPERSON.sExperience "
+		    		+ "HAVING SALESPERSON.sExperience >= '" + lowerBound
+		    		+ "' AND SALESPERSON.sExperience <= '" + upperBound
+		    		+ "' ORDER BY SALESPERSON.sID DESC";
+		    rs = stmt.executeQuery(query);
+			System.out.println("| ID | Name | Years of Experience | Number of Transaction |");
 		    while (rs.next()) {
 		        System.out.print("| " + rs.getString("sID"));
 		        System.out.print(" | " + rs.getString("sName"));
 		        System.out.print(" | " + rs.getString("sExperience"));
+		        System.out.print(" | " + rs.getString("tCount"));
 		        System.out.println(" |");
 		    }
+		    
 		} catch(Exception e) {
 			System.err.println(e);
 		}
-		
-		
-		
-		
 	}
 	
 	private static void listManufacturers(Connection conn) { } 
