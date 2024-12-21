@@ -16,6 +16,7 @@ import hi.Entities.Transaction;
 
 public class DataParser {
 	protected static void parseAllData() {
+		// for debug purposes
 		String folderPath = "sample_data";
 		parseCategory(folderPath);
 		parseManufacturer(folderPath);

@@ -129,16 +129,8 @@ public class Salesperson {
 			    pstmt.setDate(4, tDate);
 			    pstmt.executeUpdate();
 			}
-			
-			
 		} catch (Exception e) {
 			System.err.println(e);
-			
 		}
-		
-		
-		
 	}
-	
-	
 }

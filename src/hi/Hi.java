@@ -5,14 +5,10 @@ import java.util.Scanner;
 public class Hi {
 	public static void main(String[] args) {
 		try {
-			DataParser.parseAllData();
-			// ----- User Input -----
 			handleConsole();
 		} catch (Exception e) {
-			System.err.println("Something went wrong connection!");
 			System.err.println(e);
 		}
-		
 		System.out.println("Exit");
 	}
 	
@@ -79,7 +75,6 @@ public class Hi {
 		scanner.close();
 	}
 }
-
 
 
 /*
