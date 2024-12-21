@@ -136,7 +136,7 @@ public class Administrator {
 	private static void loadFromDataFile(Connection conn, String folderPath) {
 		try {
 			PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CATEGORY VALUES (?, ?)");
-			List<Category> categoryList = DataParser.parseCategory();
+			List<Category> categoryList = DataParser.parseCategory(folderPath);
 			for (Category category : categoryList) {
 	            pstmt.setInt(1, category.getcID());
 	            pstmt.setString(2, category.getcName());
@@ -144,7 +144,7 @@ public class Administrator {
 	        }
 
 			pstmt = conn.prepareStatement("INSERT INTO MANUFACTURER VALUES (?, ?, ?, ?)");
-			List<Manufacturer> manufacturerList = DataParser.parseManufacturer();
+			List<Manufacturer> manufacturerList = DataParser.parseManufacturer(folderPath);
 			for (Manufacturer manufacturer : manufacturerList) {
 				pstmt.setInt(1, manufacturer.getmID());
 				pstmt.setString(2, manufacturer.getmName());
@@ -154,7 +154,7 @@ public class Administrator {
 	        }
 			
 			pstmt = conn.prepareStatement( "INSERT INTO PART VALUES (?, ?, ?, ?, ?, ?, ?)");
-			List<Part> partList = DataParser.parsePart();
+			List<Part> partList = DataParser.parsePart(folderPath);
 			for (Part part : partList) {
 				pstmt.setInt(1, part.getpID());
 				pstmt.setString(2, part.getpName());
@@ -167,7 +167,7 @@ public class Administrator {
 	        }
 			
 			pstmt = conn.prepareStatement("INSERT INTO SALESPERSON VALUES (?, ?, ?, ?, ?)");
-			List<Salesperson> salespersonList = DataParser.parseSalesperson();
+			List<Salesperson> salespersonList = DataParser.parseSalesperson(folderPath);
 			for (Salesperson salesperson : salespersonList) {
 			    pstmt.setInt(1, salesperson.getsID());
 			    pstmt.setString(2, salesperson.getsName());
@@ -178,7 +178,7 @@ public class Administrator {
 			}
 			
 			pstmt = conn.prepareStatement("INSERT INTO TRANSACTION VALUES (?, ?, ?, ?)");
-			List<Transaction> transactionList = DataParser.parseTransaction(); // Assuming a DataParser class for parsing Transaction data
+			List<Transaction> transactionList = DataParser.parseTransaction(folderPath); // Assuming a DataParser class for parsing Transaction data
 			for (Transaction transaction : transactionList) {
 			    pstmt.setInt(1, transaction.gettID());
 			    pstmt.setInt(2, transaction.getpID());
@@ -191,9 +191,6 @@ public class Administrator {
 		} catch (Exception e) {
 			System.err.println(e);
 		}
-		
-		
-		
 	}
 	
 	private static void showTableContent(Connection conn, String tableName) {

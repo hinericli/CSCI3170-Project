@@ -1,44 +1,88 @@
 package hi;
 
+import java.sql.*;
 import java.util.Scanner;
 
 public class Salesperson {
 	protected static void performOperation(int operationType) {
-		Scanner scanner = new Scanner(System.in);
-		
-		switch (operationType) {
-			case 1:
-				System.out.println("Choose the Search criterion:\n"
-						+ "1. Part Name\n"
-						+ "2. Manufacturer Name\n"
-						+ "Choose the search criterion:");
-				int searchCriterion = Integer.parseInt(scanner.nextLine()); // 1: By Part; 2: By Manufacturer Name
-				System.out.println("Type in the Search Keyword: ");
-				String searchKeyword = scanner.nextLine();
-				System.out.println("Choose ordering:\n"
-						+ "1. By price, ascending order\n"
-						+ "2. By price, descending order\n"
-						+ "Choose the search criterion:");
-				int order = Integer.parseInt(scanner.nextLine());	// 1: asc; 2: desc
-				searchParts(searchCriterion, searchKeyword, order);
-				break;
-			case 2:
-				System.out.println("Enter Your Choice:");
-				int choice = Integer.parseInt(scanner.nextLine());
-				System.out.println("Enter The Part ID:");
-				int partID = Integer.parseInt(scanner.nextLine());
-				System.out.println("Enter The Salesperson ID:");
-				int sID = Integer.parseInt(scanner.nextLine());
-				performTransaction(choice, partID, sID);
-				break;
+		try {
+			Connection conn = DataSource.getConnection();
+			Scanner scanner = new Scanner(System.in);
+
+			switch (operationType) {
+				case 1:
+					System.out.println("Choose the Search criterion:\n"
+							+ "1. Part Name\n"
+							+ "2. Manufacturer Name\n"
+							+ "Choose the search criterion:");
+					int searchDB = Integer.parseInt(scanner.nextLine()); // 1: By Part; 2: By Manufacturer Name
+					System.out.println("Type in the Search Keyword: ");
+					String searchKeyword = scanner.nextLine();
+					System.out.println("Choose ordering:\n"
+							+ "1. By price, ascending order\n"
+							+ "2. By price, descending order\n"
+							+ "Choose the search criterion:");
+					int order = Integer.parseInt(scanner.nextLine());	// 1: asc; 2: desc
+					searchParts(conn, searchDB, searchKeyword, order);
+					break;
+				case 2:
+					System.out.println("Enter Your Choice:");
+					int choice = Integer.parseInt(scanner.nextLine());
+					System.out.println("Enter The Part ID:");
+					int partID = Integer.parseInt(scanner.nextLine());
+					System.out.println("Enter The Salesperson ID:");
+					int sID = Integer.parseInt(scanner.nextLine());
+					performTransaction(conn, choice, partID, sID);
+					break;
+			}
+			conn.close();
+		} catch (Exception e) {
+			System.err.println(e);
 		}
 		
-		scanner.close();
 	}
 	
-	private static void searchParts(int searchCriterion, String searchKeyword, int order) {}
+	private static void searchParts(Connection conn, int searchDB, String searchKeyword, int order) {
+		try {
+			Statement stmt = conn.createStatement();
+			String query = "SELECT * "
+					+ "FROM PART "
+					+ "JOIN MANUFACTURER ON PART.mID=MANUFACTURER.mID "
+					+ "JOIN CATEGORY ON PART.cID=CATEGORY.cID ";
+			
+			if (searchDB == 1) {
+				query += "WHERE pName LIKE '%" + searchKeyword + "%' ";
+			} else if (searchDB == 2) {
+				query += "WHERE mName LIKE '%" + searchKeyword + "%'";
+			}
+			
+			if (order == 1) {
+				query += "ORDER BY pPrice ASC";
+			} else if (order == 2) {
+				query += "ORDER BY pPrice DESC";
+			}
+
+			ResultSet rs = stmt.executeQuery(query);
+			System.out.println("| ID | Name | Manufacturer | Category | Quantity | Warranty | Price |");
+			while (rs.next()) {
+				System.out.print("| " + rs.getString("pID"));
+				System.out.print(" | " + rs.getString("pName"));
+				System.out.print(" | " + rs.getString("mName"));
+				System.out.print(" | " + rs.getString("cName"));
+				System.out.print(" | " + rs.getString("pAvailableQuantity"));
+				System.out.print(" | " + rs.getString("pWarrantyPeriod"));
+				System.out.print(" | " + rs.getString("pPrice"));
+				System.out.println(" |");
+			}			
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		
+		
+	}
 	
-	private static void performTransaction(int choice, int partID, int sID) {}
+	private static void performTransaction(Connection conn, int choice, int partID, int sID) {}
 	
 	
 }

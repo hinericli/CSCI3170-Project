@@ -15,16 +15,17 @@ import hi.Entities.Transaction;
 
 public class DataParser {
 	protected static void parseAllData() {
-		parseCategory();
-		parseManufacturer();
-		parsePart();
-		parseSalesperson();
-		parseTransaction();
+		String folderPath = "sample_data";
+		parseCategory(folderPath);
+		parseManufacturer(folderPath);
+		parsePart(folderPath);
+		parseSalesperson(folderPath);
+		parseTransaction(folderPath);
 	}
 	
-	protected static List<Category> parseCategory() {
+	protected static List<Category> parseCategory(String folderPath) {
 		try {
-			BufferedReader in = new BufferedReader (new FileReader(new File("./sample_data/category.txt")));
+			BufferedReader in = new BufferedReader (new FileReader(new File("./" + folderPath + "/category.txt")));
 			StringBuilder sb = new StringBuilder(1000);
 			char nextChar;	// to remove the tab from the reader, tab is not going to be used
 			List<Category> categoryList = new ArrayList<Category>();
@@ -52,9 +53,10 @@ public class DataParser {
 			}
 			in.close();
 
+			/*
 			for (Category category : categoryList) {
 	            System.out.println("Category ID: " + category.getcID() + ", Category Name: " + category.getcName());
-	        }
+	        }*/
 			
 			return categoryList;
 			
@@ -65,9 +67,9 @@ public class DataParser {
 		return null;
 	}
 	
-	protected static List<Manufacturer> parseManufacturer() {
+	protected static List<Manufacturer> parseManufacturer(String folderPath) {
 		try {
-			BufferedReader in = new BufferedReader (new FileReader(new File("./sample_data/manufacturer.txt")));
+			BufferedReader in = new BufferedReader (new FileReader(new File("./" + folderPath + "/manufacturer.txt")));
 			StringBuilder sb = new StringBuilder(1000);
 			char nextChar; // tab: to remove the tab from the reader, tab is not going to be used
 			List<Manufacturer> manufacturerList = new ArrayList<Manufacturer>();
@@ -110,13 +112,14 @@ public class DataParser {
 			}
 			in.close();
 			
+			/*
 			for (Manufacturer manufacturer : manufacturerList) {
 	            System.out.println("Manufacturer ID: " + manufacturer.getmID());
 	            System.out.println("Manufacturer Name: " + manufacturer.getmName());
 	            System.out.println("Manufacturer Address: " + manufacturer.getmAddress());
 	            System.out.println("Manufacturer Phone Number: " + manufacturer.getmPhoneNumber());
 	            System.out.println();
-	        }
+	        }*/
 			
 			return manufacturerList;
 		} catch (Exception e) {
@@ -127,9 +130,9 @@ public class DataParser {
 	}
 
 	
-	protected static List<Part> parsePart() { 
+	protected static List<Part> parsePart(String folderPath) { 
 		try {
-			BufferedReader in = new BufferedReader (new FileReader(new File("./sample_data/part.txt")));
+			BufferedReader in = new BufferedReader (new FileReader(new File("./" + folderPath + "/part.txt")));
 			StringBuilder sb = new StringBuilder(1000);
 			char nextChar; // tab: to remove the tab from the reader, tab is not going to be used
 			List<Part> partList = new ArrayList<>();
@@ -190,11 +193,10 @@ public class DataParser {
 				
 				Part part = new Part(pID, pName, pPrice, mID, cID, pWarrantyPeriod, pAvailableQuantity);
 				partList.add(part);
-				
-				System.out.println(pID + " " + pName + " " + pPrice + " " + mID + " " + cID + " " + pWarrantyPeriod + " " + pAvailableQuantity);
 			}
 			in.close();
 			
+			/*
 			for (Part part : partList) {
 		            System.out.println("Part ID: " + part.getpID());
 		            System.out.println("Part Name: " + part.getpName());
@@ -205,6 +207,7 @@ public class DataParser {
 		            System.out.println("Available Quantity: " + part.getpAvailableQuantity());
 		            System.out.println();
 	    	}
+	    	*/
 			
 			return partList;
 		} catch (Exception e) {
@@ -215,9 +218,9 @@ public class DataParser {
 	}
 	
 
-	protected static List<Salesperson> parseSalesperson() { 
+	protected static List<Salesperson> parseSalesperson(String folderPath) { 
 		try {
-			BufferedReader in = new BufferedReader (new FileReader(new File("./sample_data/salesperson.txt")));
+			BufferedReader in = new BufferedReader (new FileReader(new File("./" + folderPath + "/salesperson.txt")));
 			StringBuilder sb = new StringBuilder(1000);
 			char nextChar;	// to remove the tab from the reader, tab is not going to be used
 			
@@ -266,6 +269,7 @@ public class DataParser {
 			}
 			in.close();
 			
+			/*
 			for (Salesperson salesperson : salespersonList) {
 	            System.out.println("Salesperson ID: " + salesperson.getsID());
 	            System.out.println("Salesperson Name: " + salesperson.getsName());
@@ -274,6 +278,7 @@ public class DataParser {
 	            System.out.println("Experience: " + salesperson.getsExperience() + " years");
 	            System.out.println();
 			}
+			*/
 			
 			return salespersonList;
 		} catch (Exception e) {
@@ -284,9 +289,9 @@ public class DataParser {
 	}
 
 
-	protected static List<Transaction> parseTransaction() { 
+	protected static List<Transaction> parseTransaction(String folderPath) { 
 		try {
-			BufferedReader in = new BufferedReader (new FileReader(new File("./sample_data/transaction.txt")));
+			BufferedReader in = new BufferedReader (new FileReader(new File("./" + folderPath + "/transaction.txt")));
 			StringBuilder sb = new StringBuilder(1000);
 			char nextChar;	// to remove the tab from the reader, tab is not going to be used
 			
@@ -332,6 +337,7 @@ public class DataParser {
 			}
 			in.close();
 			
+			/*
 			for (Transaction transaction : transactionList) {
 	            System.out.println("Transaction ID: " + transaction.gettID());
 	            System.out.println("Part ID: " + transaction.getpID());
@@ -339,6 +345,7 @@ public class DataParser {
 	            System.out.println("Transaction Date: " + transaction.gettDate());
 	            System.out.println();
 	        }
+	        */
 			
 			return transactionList;
 		} catch (Exception e) {
